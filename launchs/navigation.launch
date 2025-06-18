@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+
+<launch>
+  <include file="$(find three_wheel_omni_robot)/launchs/omni_configuration.launch"/>  
+  <include file="$(find three_wheel_omni_robot)/launchs/move_base.launch"/>   
+</launch>

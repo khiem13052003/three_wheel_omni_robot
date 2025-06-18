@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<launch>
+  <!-- Arguments -->  
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="odom" />
+  <arg name="move_forward_only" default="true"/>
+
+  <arg name="scan_topic"     default="/scan"/>
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <arg name="map_file" default="$(find three_wheel_omni_robot)/maps/my_map.yaml"/>  
+
+  <!-- AMCL cho robot omni-directional -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+    <!-- Odometry model cho omni -->
+    <param name="odom_model_type" value="omni"/>  <!-- hoặc "omni-corrected" nếu có điều chỉnh sau đo -->
+    <!-- Tham số noise odometry cho omni: odom_alpha1..5 cần tune thực nghiệm -->
+    <!-- ví dụ khởi đầu: alpha1/2/3/4 nhỏ, alpha5 dùng cho cross-term của omni -->
+    <param name="odom_alpha1" value="0.01"/>  <!-- noise rotation từ rotation -->
+    <param name="odom_alpha2" value="0.01"/>  <!-- noise rotation từ translation -->
+    <param name="odom_alpha3" value="0.02"/>  <!-- noise translation từ translation -->
+    <param name="odom_alpha4" value="0.02"/>  <!-- noise translation từ rotation -->
+    <param name="odom_alpha5" value="0.05"/>  <!-- noise cross-term đặc thù omni -->
+    
+    <!-- Thời gian cho phép lệch tf nhỏ khi lookup -->
+    <param name="transform_tolerance" value="0.2"/>  <!-- nếu vẫn warning, có thể tăng lên 0.3–0.5 -->
+    
+    <!-- Tần số publish dữ liệu cho RViz -->
+    <param name="gui_publish_rate" value="10.0"/>
+    
+    <!-- Laser scan model -->
+    <param name="laser_model_type" value="likelihood_field"/>  <!-- nhẹ hơn beam, thường dùng cho indoor -->
+    <param name="laser_max_beams" value="30"/>  <!-- sample 30 beams; tăng nếu CPU dư -->
+    <!-- Với likelihood_field chỉ cần z_hit và z_rand -->
+    <param name="laser_z_hit" value="0.8"/>
+    <param name="laser_z_rand" value="0.2"/>
+    <param name="laser_sigma_hit" value="0.2"/>
+    <!-- Các tham số beam model giữ nhưng chỉ khi đổi sang "beam" -->
+    <param name="laser_z_short" value="0.05"/>
+    <param name="laser_z_max" value="0.05"/>
+    <param name="laser_lambda_short" value="0.1"/>
+    
+    <!-- Particle filter (KLD) -->
+    <param name="min_particles" value="500"/>
+    <param name="max_particles" value="5000"/>
+    <param name="kld_err" value="0.05"/>
+    <param name="kld_z" value="0.99"/>
+    <param name="resample_interval" value="1"/>
+    
+    <!-- Ngưỡng update: robot chỉ cập nhật khi di chuyển đủ -->
+    <param name="update_min_d" value="0.1"/>  <!-- omni thường di chuyển mượt, có thể giảm để update mịn hơn -->
+    <param name="update_min_a" value="0.2"/>  <!-- rad, robot omni quay mượt, giảm ngưỡng nếu cần -->
+    
+    <!-- Recovery nếu muốn: để 0 nếu không dùng -->
+    <param name="recovery_alpha_slow" value="0.0"/>
+    <param name="recovery_alpha_fast" value="0.0"/>
+    
+    <!-- Frame và topic -->
+    <param name="odom_frame_id" value="odom"/>
+    <param name="base_frame_id" value="base_link"/>
+    <param name="global_frame_id" value="map"/>
+    <param name="laser_frame_id" value="laser"/>  <!-- phải khớp header.frame_id trên /scan -->
+    <param name="scan_topic" value="/scan"/>
+  </node>
+
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="/map"/>
+  </node>
+
+ 
+  <!-- 6) RViz -->
+  <node pkg="rviz" type="rviz" name="rviz"
+        args="-d $(find three_wheel_omni_robot)/config/slam.rviz"
+        output="screen"/>
+</launch>
+

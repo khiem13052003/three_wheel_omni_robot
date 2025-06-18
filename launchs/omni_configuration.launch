@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<launch>
+  <rosparam file="$(find three_wheel_omni_robot)/config/params.yaml" command="load" />    
+  <!-- 2. robot_state_publisher: publish TF d\u1ef1a trên URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find three_wheel_omni_robot)/urdf/omni.urdf.xacro" />  
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+
+  <node pkg="three_wheel_omni_robot" type="imu_node.py" name="imu_node" output="screen" />
+  <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
+    <param name="use_mag" value="true"/>
+    <param name="gain" value="0.1"/>
+    <param name="zeta" value="0.0"/>
+    <param name="fixed_frame " value="odom"/>
+    <param name="publish_tf  " value="false"/>
+    <param name="use_magnetic_field_msg"            type="bool" value="true"/>
+  </node> 
+  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+    <rosparam file="$(find three_wheel_omni_robot)/config/scan_matcher_params.yaml" command="load" />
+  </node>
+
+  <!-- <node pkg="three_wheel_omni_robot" type="odom_from_pose2d.py" name="odom_from_pose2d" output="screen" /> -->
+   <node pkg="three_wheel_omni_robot" type="odom_publisher.py" name="odom_publisher" output="screen" /> 
+
+
+  <!-- <node pkg="three_wheel_omni_robot" type="lidar_node.py" name="lidar_node" output="screen" /> -->
+
+  <node pkg="three_wheel_omni_robot" type="kinematics_node.py" name="kinematic_node" output="screen" />
+  <node pkg="three_wheel_omni_robot" type="control_node.py" name="control_node" output="screen" />
+  
+  <node pkg="rplidar_ros"  type="rplidarNode" name="rplidarNode"  output="screen" >
+    <param name="serial_port"         type="string" value="/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"/>
+    <param name="serial_baudrate"     type="int"    value="115200"/><!--A1/A2 -->
+    <!--param name="serial_baudrate"     type="int"    value="256000"--><!--A3 -->
+    <param name="frame_id"            type="string" value="laser"/>
+    <param name="inverted"            type="bool"   value="false"/>
+    <param name="angle_compensate"    type="bool"   value="true"/>
+  </node>
+
+</launch>
+

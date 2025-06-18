@@ -1,0 +1,16 @@
+# --- CẤU HÌNH CHUNG CHO NODE ---
+base_frame: "base_link"         # Frame gốc của robot
+fixed_frame: "odom"
+scan_topic: "/scan"             # Topic LiDAR
+use_odom: false                  # Bật/tắt việc dùng odometry để hỗ trợ scan matching
+use_imu: true                  # Bật/tắt việc dùng IMU để hỗ trợ scan matching
+publish_tf: true
+
+# --- Tham số scan matching chính ---
+max_iterations: 15
+max_correspondence_dist: 0.4
+max_angular_correction_deg: 30.0
+max_linear_correction: 0.
+epsilon_xy: 1e-6
+epsilon_theta: 1e-6
+outliers_maxPerc: 0.85

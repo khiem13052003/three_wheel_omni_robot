@@ -1,0 +1,19 @@
+# recovery_behaviors.yaml
+
+recovery_behaviors:
+  - name: clear_costmap        # Tên gọi tùy ý
+    type: "clear_costmap_recovery/ClearCostmapRecovery"
+    # Các tham số cụ thể (nếu muốn override)
+    # footprint_padding: 0.01
+    # reset_distance: 3.0
+
+  - name: rotate_recovery
+    type: "rotate_recovery/RotateRecovery"
+    # max_rotation_deg: 45            # Mặc định là 45 độ
+    # rotation_velocity: 0.5          # (rad/s)
+
+  # Bạn có thể thêm:
+  # - name: back_up_recovery
+  #   type: "back_up_recovery/BackUpRecovery"
+  #   distance: 0.5                  # (m)
+  #   velocity: 0.2                  # (m/s)

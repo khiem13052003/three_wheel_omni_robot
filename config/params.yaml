@@ -1,0 +1,13 @@
+port_arduino: /dev/serial/by-id/usb-1a86_USB2.0-Serial-if00-port0
+baurate: 115200
+odom_frame_id: odom
+base_frame_id: base_link
+map_frame_id: map
+laser_frame_id: laser
+publish_rate: 10
+
+sig1: 60  #degree
+sig2: 180 #degree
+sig3: 300 #degree
+wheel_radius: 0.041 #m
+L: 0.180 #m

@@ -1,0 +1,8 @@
+<launch>
+  <!-- Chỉ định file cấu hình (nếu muốn override mặc định) -->
+  <arg name="config_file" default="$(find three_wheel_omni_robot)/config/parameters.yaml"/>
+
+  <node name="three_wheel_omni_robot" pkg="three_wheel_omni_robot" type="base_controller.py" output="screen">
+    <param name="config_file" value="$(arg config_file)"/>
+  </node>
+</launch>
