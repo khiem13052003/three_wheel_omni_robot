@@ -14,15 +14,15 @@
     <param name="publish_tf  " value="false"/>
     <param name="use_magnetic_field_msg"            type="bool" value="true"/>
   </node> 
-  <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+  <!--<node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">
+
     <rosparam file="$(find three_wheel_omni_robot)/config/scan_matcher_params.yaml" command="load" />
   </node>
 
-  <!-- <node pkg="three_wheel_omni_robot" type="odom_from_pose2d.py" name="odom_from_pose2d" output="screen" /> -->
-   <node pkg="three_wheel_omni_robot" type="odom_publisher.py" name="odom_publisher" output="screen" /> 
+   <node pkg="three_wheel_omni_robot" type="odom_publisher.py" name="odom_publisher" output="screen" /> -->
 
 
-  <!-- <node pkg="three_wheel_omni_robot" type="lidar_node.py" name="lidar_node" output="screen" /> -->
+
 
   <node pkg="three_wheel_omni_robot" type="kinematics_node.py" name="kinematic_node" output="screen" />
   <node pkg="three_wheel_omni_robot" type="control_node.py" name="control_node" output="screen" />
