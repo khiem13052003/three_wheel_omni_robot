@@ -16,6 +16,8 @@
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
     <!-- Odometry model cho omni -->
     <param name="odom_model_type" value="omni"/>  <!-- hoặc "omni-corrected" nếu có điều chỉnh sau đo -->
+    <param name="global_frame_id" value="/map"/>
+
     <!-- Tham số noise odometry cho omni: odom_alpha1..5 cần tune thực nghiệm -->
     <!-- ví dụ khởi đầu: alpha1/2/3/4 nhỏ, alpha5 dùng cho cross-term của omni -->
     <param name="odom_alpha1" value="0.01"/>  <!-- noise rotation từ rotation -->

@@ -31,8 +31,8 @@
 
     <!-- Output -->
     <param name="publish_tf" value="true" />
-    <param name="publish_pose" value="true" />
-    <param name="publish_pose_stamped" value="false" />
+    <param name="publish_pose" value="false" />
+    <param name="publish_pose_stamped" value="true" />
 
     <!-- Scan matching main -->
     <param name="max_iterations" value="20" />
@@ -47,7 +47,7 @@
     <param name="restart" value="1" />
     <param name="restart_threshold_mean_error" value="0.02" />
     <param name="restart_dtheta" value="0.20" />
-    <!-- Các param advanced khác giữ default -->
+    <!-- Các param advanced khác gi? default -->
   </node>
 
    <node pkg="three_wheel_omni_robot" type="odom_publisher.py" name="odom_publisher" output="screen" /> 
