@@ -1,4 +1,4 @@
-image: /home/jetson1/catkin_ws/src/three_wheel_omni_robot/maps/my_map.pgm
+image: my_map.pgm
 resolution: 0.050000
 origin: [-51.200024, -51.200024, 0.000000]
 negate: 0

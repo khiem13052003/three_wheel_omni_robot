@@ -3,4 +3,5 @@
 <launch>
   <include file="$(find three_wheel_omni_robot)/launchs/omni_configuration.launch"/>  
   <include file="$(find three_wheel_omni_robot)/launchs/move_base.launch"/>   
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find hector_slam_launch)/rviz_cfg/mapping_demo.rviz"/>
 </launch>

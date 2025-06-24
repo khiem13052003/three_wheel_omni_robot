@@ -34,7 +34,6 @@ class PoseStampedImuToOdom:
 
         # Publisher
         self.odom_pub = rospy.Publisher(self.odom_topic, Odometry, queue_size=10)
-        self.tf_broadcaster = tf.TransformBroadcaster()
 
         # State luu pose tru?c
         self.prev_x = None
@@ -118,15 +117,6 @@ class PoseStampedImuToOdom:
 
         # Publish Odometry
         self.odom_pub.publish(odom)
-
-        # Broadcast TF: t? odom_frame -> base_frame
-        self.tf_broadcaster.sendTransform(
-            (x, y, 0.0),
-            (quat.x, quat.y, quat.z, quat.w),
-            now,
-            self.child_frame,
-            self.frame_id
-        )
 
         # C?p nh?t prev
         self.prev_x = x
