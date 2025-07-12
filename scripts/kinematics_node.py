@@ -70,7 +70,7 @@ class RobotKinematics(object):
         ])
         omegas = J_inv.dot(v_body)
         # Trả về list float
-        return [float(omegas[0]), float(omegas[1]), float(omegas[2])]
+        return [float(omegas[0]), float(omegas[2]), float(omegas[1])]
 
 def handle_forward(req):
     """

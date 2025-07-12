@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<launch>
+    <!-- Cho phép d?i c?ng n?u c?n -->
+    <arg name="port" default="9090" />
+
+    <!-- Node rosbridge websocket -->
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen">
+        <param name="port" value="$(arg port)" />
+    </node>
+
+    <!-- Node rosapi (tùy ch?n nhung khuyên dùng) -->
+    <node name="rosapi" pkg="rosapi" type="rosapi_node" output="screen" />
+
+    <!-- tf2_web_republisher (n?u b?n mu?n xem tf trên web) -->
+    <node name="tf2_web_republisher" pkg="tf2_web_republisher" type="tf2_web_republisher" output="screen" />
+</launch>
+

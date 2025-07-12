@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="urdf">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.0103610174163686 -0.00830382462883425 0.122932450929879"
+        rpy="0 0 0" />
+      <mass
+        value="5.9426976062483" />
+      <inertia
+        ixx="0.0214504889698301"
+        ixy="6.34397033479604E-05"
+        ixz="-0.000549301417330164"
+        iyy="0.0226884445794113"
+        iyz="0.000300885300016989"
+        izz="0.0383375266674383" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="laser">
+    <inertial>
+      <origin
+        xyz="-0.00829409957033963 -1.73472347597681E-17 0.0107011422227911"
+        rpy="0 0 0" />
+      <mass
+        value="0.146695752131392" />
+      <inertia
+        ixx="6.22721120792817E-05"
+        ixy="-2.03287907341032E-20"
+        ixz="-1.88658076337421E-05"
+        iyy="0.000109673997590948"
+        iyz="-3.3881317890172E-20"
+        izz="0.000125682524275729" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/laser.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/laser.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="laser"
+    type="fixed">
+    <origin
+      xyz="0 0 0.40208"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="laser" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="imu_link">
+    <inertial>
+      <origin
+        xyz="-0.00105007910532071 0.000267497920274754 0.014332517433251"
+        rpy="0 0 0" />
+      <mass
+        value="0.152248680442653" />
+      <inertia
+        ixx="0.000372323855042548"
+        ixy="1.9710462307996E-09"
+        ixz="-3.16417605453788E-08"
+        iyy="2.29424096541118E-05"
+        iyz="6.63900616205697E-06"
+        izz="0.000374616586407174" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/cam.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.101960784313725 0.101960784313725 0.101960784313725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://three_wheel_omni_robot/meshes/cam.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="imu_link"
+    type="fixed">
+    <origin
+      xyz="0.096216 0.0076976 0.40829"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="imu_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>
+

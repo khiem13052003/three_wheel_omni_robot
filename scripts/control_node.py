@@ -13,7 +13,7 @@ class CmdVelToArduino:
     def __init__(self):
         rospy.init_node('cmd_vel_to_arduino')
 
-        # Tham số Serial
+        # Tham s\u1ed1 Serial
         serial_port = rospy.get_param('~/port_arduino', '/dev/ttyUSB0')
         baudrate = rospy.get_param('~/baudrate', 115200)
         self.cmd_prefix = ":GO_"
@@ -25,7 +25,7 @@ class CmdVelToArduino:
         self.wheel_radius = rospy.get_param('~/wheel_radius', 0.041)
         self.l = rospy.get_param('~/L', 0.18)
 
-        # Mở Serial
+        # M\u1edf Serial
         try:
             self.ser = serial.Serial(serial_port, baudrate=baudrate, timeout=1.0)
             rospy.loginfo("Opened serial port %s @ %d", serial_port, baudrate)
@@ -55,21 +55,22 @@ class CmdVelToArduino:
 
     def inverse_kinematics(self, v_body):
         """
-        Nhận v_body: list hoặc array length 3 [v_x, v_y, omega_z] (mm/s, mm/s, rad/s)
-        theta_deg: góc hiện tại (độ)
-        Trả về list length 3: [omega1, omega2, omega3] (rad/s)
+        Nh\u1eadn v_body: list ho\u1eb7c array length 3 [v_x, v_y, omega_z] (mm/s, mm/s, rad/s)
+        theta_deg: góc hi\u1ec7n t\u1ea1i (\u0111\u1ed9)
+        Tr\u1ea3 v\u1ec1 list length 3: [omega1, omega2, omega3] (rad/s)
         """
         if len(v_body) != 3:
-            raise ValueError("InverseKinematics: v_body phải có độ dài 3")
+            raise ValueError("InverseKinematics: invalid lenght")
 
-        # Ma trận J_inv: 
+        # Ma tr\u1eadn J_inv: 
         J_inv = (1.0 / self.wheel_radius) * np.array([
-            [-np.sin(self.sig1),  np.cos(self.sig1), self.l],
-            [-np.sin(self.sig2),  np.cos(self.sig2), self.l],
-            [-np.sin(self.sig3),  np.cos(self.sig3), self.l]
+            [ np.sin(self.sig1), -np.cos(self.sig1), -self.l],
+            [ np.sin(self.sig2), -np.cos(self.sig2), -self.l],
+            [ np.sin(self.sig3), -np.cos(self.sig3), -self.l]
         ])
+
         omegas = J_inv.dot(v_body)
-        # Trả về list float
+        # Tr\u1ea3 v\u1ec1 list float
         return [float(omegas[0]), float(omegas[1]), float(omegas[2])]
 
     def cb_cmd_vel(self, msg):
@@ -77,7 +78,7 @@ class CmdVelToArduino:
         vy = msg.linear.y
         wz = msg.angular.z
 
-        # # Gọi service với v_body = [vx, vy, wz]
+        # # G\u1ecdi service v\u1edbi v_body = [vx, vy, wz]
         # req = InverseKinematicsRequest()
         # req.v_body = [vx, vy, wz]
         # try:
@@ -85,14 +86,14 @@ class CmdVelToArduino:
         # except rospy.ServiceException as e:
         #     rospy.logerr("InverseKinematics call failed: %s", e)
         #     return
-        # # Lấy omegas
+        # # L\u1ea5y omegas
         # omegas = resp.omegas
         # if not omegas or len(omegas) != 3:
         #     rospy.logwarn("InverseKinematicsResponse invalid length: %s", str(omegas))
         #     return
         w1, w2, w3 = self.inverse_kinematics([vx,vy,wz])
 
-        # Format chuỗi ":GO_<w1>_<w2>_<w3>:"
+        # Format chu\u1ed7i ":GO_<w1>_<w2>_<w3>:"
         try:
             s1 = "{:.3f}".format(w1)
             s2 = "{:.3f}".format(w2)

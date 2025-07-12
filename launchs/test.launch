@@ -1,19 +1,17 @@
 <?xml version="1.0" ?>
 <launch>
-  <arg name="map_file" default="$(find three_wheel_omni_robot)/maps/my_map.yaml"/>  
+  <!-- Arguments -->
+  <arg name="cmd_vel_topic" default="/cmd_vel" />
+  <arg name="odom_topic" default="/odom" />
+  <arg name="scan_topic"  default="/scan" />
+  <arg name="move_forward_only" default="true"/>
 
-  <!-- Map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)">
-    <param name="frame_id" value="map"/>
-  </node>
-
-  <!-- AMCL -->
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
-  <rosparam file="$(find three_wheel_omni_robot)/config/amcl_params.yaml" command="load" />
-  </node>
-
-  <!-- move_base -->
+  <!-- move_base (không c?n map_server, không c?n amcl) -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+	<param name="controller_frequency" value="3.0" />
+	<param name="planner_frequency" value="0.1" />
+	<param name="transform_tolerance" value="0.4" />
+
     <rosparam file="$(find three_wheel_omni_robot)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find three_wheel_omni_robot)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find three_wheel_omni_robot)/config/costmap_params.yaml" command="load" />

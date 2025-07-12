@@ -1,49 +1,100 @@
-base_local_planner: "dwa_local_planner/DWAPlannerROS"
+# base_local_planner: "dwa_local_planner/DWAPlannerROS"
+base_local_planner: "teb_local_planner/TebLocalPlannerROS"
 base_global_planner: "navfn/NavfnROS"
 
-DWAPlannerROS:
-# Robot Configuration Parameters
-  max_vel_x: 0.5
-  min_vel_x: 0.0
+TebLocalPlannerROS:
 
-  max_vel_y: 0.0
-  min_vel_y: 0.0
+  odom_topic: odom
 
-# The velocity when robot is moving in a straight line
-  max_vel_trans:  0.2
-  min_vel_trans:  0.035
+  footprint_model:
+    type: "circular"
+    radius: 0.2   # ? Nên d?t: 0.41 - 0.25 = ~0.16 ? ho?c dúng kích thu?c robot
 
-  max_vel_theta: 0.3
-  min_vel_theta: 0.0
+  # Cho phép robot omni
+  holonomic_robot: true
 
-  acc_lim_x: 2.5
-  acc_lim_y: 0.0
-  acc_lim_theta: 4.0
+  max_vel_x: 0.25                        # Tang t?c d? ti?n
+  max_vel_y: 0.25                        # Tang t?c d? ngang
+  max_vel_theta: 0.5
 
-# Goal Tolerance Parametes
-  xy_goal_tolerance: 0.2
-  yaw_goal_tolerance: 0.2
-  latch_xy_goal_tolerance: false
+  acc_lim_x: 0.2
+  acc_lim_y: 0.2
+  acc_lim_theta: 0.5
 
-# Forward Simulation Parameters
-  sim_time: 1.5 # sec
-  vx_samples: 20 # units
-  vy_samples: 0
-  vth_samples: 40
-  controller_frequency: 10.0 #hz
+  # M?c tiêu
+  xy_goal_tolerance: 0.02            # Gi?m sai s? v? trí, yêu c?u chính xác hon
+  yaw_goal_tolerance: 0.05
+  free_goal_vel: true
 
-# Trajectory Scoring Parameters
-  path_distance_bias: 32.0
-  goal_distance_bias: 20.0
-  occdist_scale: 0.02
-  forward_point_distance: 0.325
-  stop_time_buffer: 0.2
-  scaling_speed: 0.05
-  max_scaling_factor: 0.09
+  # Th?i gian & M?u
+  dt_ref: 0.2
+  dt_hysteresis: 0.02
+  min_samples: 4                      # Tang s? m?u t?i uu, giúp mu?t hon
+  feasibility_check_no_poses: 5
 
-# Oscillation Prevention Parameters
-  oscillation_reset_dist: 0.05
+  # Theo k? ho?ch toàn c?c
+  global_plan_viapoint_sep: 0.25        # T?o via-point dày hon (m?i 20cm)
+  weight_viapoint: 5.0                 # Tang tr?ng s? bám plan
+  allow_init_with_backwards_motion: true
+  global_plan_overwrite_orientation: false      # Không ghi dè hu?ng global plan
+  global_plan_viapoint_look_ahead: 1.0          # T?o via-point trong t?m nhìn 1m
+  max_global_plan_lookahead_dist: 2.5           # Gi?i h?n kho?ng nhìn xa c?a global plan
 
-# Debugging
-  publish_traj_pc : true
-  publish_cost_grid_pc: true
+  # T?i uu hoá qu? d?o
+  weight_optimal_time: 1.0             # Uu tiên t?i uu th?i gian cao hon
+  weight_shortest_path: 1.0
+  weight_obstacle: 10.0                # Gi?m tr?ng s? tránh v?t tinh
+  weight_dynamic_obstacle: 15.0        # Tang tr?ng s? tránh v?t d?ng
+
+
+  min_obstacle_dist: 0.1 # T?i thi?u kho?ng cách c?n tránh, ch?nh v? 0
+
+# DWAPlannerROS:
+# # Robot Configuration Parameters
+#   max_vel_x: 0.5
+#   min_vel_x: 0.0
+
+#   max_vel_y: 0.1
+#   min_vel_y: 0.0
+
+# # The velocity when robot is moving in a straight line
+#   max_vel_trans:  0.2
+#   min_vel_trans:  0.035
+
+#   max_vel_theta: 0.3
+#   min_vel_theta: 0.0
+
+#   acc_lim_x: 2.5
+#   acc_lim_y: 0.0
+#   acc_lim_theta: 4.0
+
+# # Goal Tolerance Parametes
+#   xy_goal_tolerance: 0.1
+#   yaw_goal_tolerance: 0.1
+#   latch_xy_goal_tolerance: false
+
+# # Forward Simulation Parameters
+#   sim_time: 1.5 # sec
+#   vx_samples: 20 # units
+#   vy_samples: 0
+#   vth_samples: 40
+#   controller_frequency: 10.0 #hz
+
+# # Trajectory Scoring Parameters
+#   path_distance_bias: 16.0
+#   goal_distance_bias: 20.0
+#   occdist_scale: 0.02
+#   forward_point_distance: 0.325
+#   stop_time_buffer: 0.2sudo apt install ros-melodic-teb-local-planner
+
+#   scaling_speed: 0.05
+#   max_scaling_factor: 0.09
+
+# # Oscillation Prevention Parameters
+#   oscillation_reset_dist: 0.05
+
+# # Debugging
+#   publish_traj_pc : true
+#   publish_cost_grid_pc: true
+
+

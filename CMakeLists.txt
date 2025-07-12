@@ -69,6 +69,8 @@ add_service_files(
   FILES
   ForwardKinematics.srv
   InverseKinematics.srv
+  waypoint.srv
+  GetWaypoints.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -117,7 +119,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES three_wheel_omni_robot
-CATKIN_DEPENDS   rospy std_msgs message_generation geometry_msgs roscpp tf laser_scan_matcher nav_msgs move_base sensor_msgs gmapping controller_manager hardware_interface effort_controllers
+CATKIN_DEPENDS   rospy std_msgs message_generation geometry_msgs roscpp tf laser_scan_matcher nav_msgs move_base sensor_msgs gmapping controller_manager hardware_interface effort_controllers message_runtime
 #  DEPENDS system_lib
 )
 
@@ -179,8 +181,11 @@ catkin_install_python(PROGRAMS
 	scripts/control_node.py
 	scripts/lidar_node.py
 	scripts/odom_publisher.py
-	scripts/imu_node.py
-	
+	scripts/odom_imu_node.py
+	scripts/dothi.py
+	scripts/udp_node.py
+	scripts/waypointsv.py
+	scripts/js.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
