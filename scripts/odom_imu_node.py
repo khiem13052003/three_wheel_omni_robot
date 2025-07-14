@@ -29,11 +29,8 @@ def build_jacobian():
     sin1, sin2, sin3 = np.sin(SIG)
     cos1, cos2, cos3 = np.cos(SIG)
     J = (WHEEL_RADIUS / 3.0) * np.array([
-        # row 0: vx (ti?n lui)
         [-2*sin1,    -2*sin2,    -2*sin3],
-        # row 1: vy (ngang tráiph?i)  d?o d?u so v?i tru?c
         [-2*cos1,    -2*cos2,    -2*cos3],
-        # row 2: ? (xoay)  d?o d?u so v?i tru?c
         [-1.0/L,     -1.0/L,     -1.0/L]
     ])
     return J
@@ -74,13 +71,15 @@ class ImuOdomNode:
         self.y = 0.0
         self.theta = 0.0
 
-        # Ngay sau khi m? serial và tru?c khi tính toán gì
+        # Initialize in __init__:
+        self.orientation = Quaternion(0, 0, 0, 1)  # Quaternion identity        
+        self.tf_broadcaster = tf2_ros.TransformBroadcaster()
+
         now = rospy.Time.now().to_sec()
         self.prev_time = now
         self.prev_ticks = np.zeros(3, dtype=float)
 
-        # --- thêm vào dây ---
-        self.tf_broadcaster = tf2_ros.TransformBroadcaster()
+
 
     def parse_line(self, line):
 
@@ -107,7 +106,7 @@ class ImuOdomNode:
         while not rospy.is_shutdown():
             self.ser.write(b'o')
             line = self.ser.readline().decode('utf-8', errors='ignore')
-            rospy.loginfo(line)
+            # rospy.loginfo(line)
             data = self.parse_line(line)
             if data is None:
                 rate.sleep()
@@ -125,14 +124,16 @@ class ImuOdomNode:
             imu = Imu()
             imu.header.stamp = now
             imu.header.frame_id = 'imu_link'
+            imu.orientation = self.orientation
             # gyro: deg/s -> rad/s
             imu.angular_velocity.x = gx * DEG2RAD
             imu.angular_velocity.y = gy * DEG2RAD
             imu.angular_velocity.z = gz * DEG2RAD
             # accel: m/s^2 unchanged
-            imu.linear_acceleration.x = ax
-            imu.linear_acceleration.y = ay
-            imu.linear_acceleration.z = az
+            imu.linear_acceleration.x = ax + 0.5
+            imu.linear_acceleration.y = ay - 0.5
+            imu.linear_acceleration.z = az - 0.3
+            
             self.imu_pub.publish(imu)
 
             # --- Publish Magnetometer ---

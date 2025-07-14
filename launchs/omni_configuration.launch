@@ -20,14 +20,14 @@
   <!-- odom_imu_publisher -->
   <node pkg="three_wheel_omni_robot" type="odom_imu_node.py" respawn="false" name="odom_imu_node" output="screen" />
 
-  <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
+  <!--<node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
     <param name="use_mag" value="true"/>
     <param name="gain" value="0.1"/>
     <param name="zeta" value="0.0"/>
     <param name="fixed_frame" value="odom"/>
     <param name="publish_tf" value="false"/>
     <param name="use_magnetic_field_msg" type="bool" value="true"/>
-  </node>
+  </node>-->
 
   <!-- laser_scan_matcher 
   <node pkg="laser_scan_matcher" type="laser_scan_matcher_node" name="laser_scan_matcher_node" output="screen">

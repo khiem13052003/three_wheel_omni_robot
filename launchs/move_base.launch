@@ -7,10 +7,7 @@
     <param name="frame_id" value="map"/>
   </node>
 
-  <!-- AMCL -->
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
-  <rosparam file="$(find three_wheel_omni_robot)/config/amcl_params.yaml" command="load" />
-  </node>
+
 
   <!-- move_base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
@@ -20,6 +17,11 @@
     <rosparam file="$(find three_wheel_omni_robot)/config/move_base.yaml" command="load" />
     <rosparam file="$(find three_wheel_omni_robot)/config/planner_params.yaml" command="load" />
     <rosparam file="$(find three_wheel_omni_robot)/config/recovery_behaviors.yaml" command="load" />
+    
+  </node>
+  <!-- AMCL -->
+  <node pkg="amcl" type="amcl" name="amcl" output="screen">
+  <rosparam file="$(find three_wheel_omni_robot)/config/amcl_params.yaml" command="load" />
   </node>
 </launch>
 

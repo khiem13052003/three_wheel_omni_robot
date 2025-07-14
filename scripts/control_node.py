@@ -111,6 +111,7 @@ class CmdVelToArduino:
     def on_shutdown(self):
         if hasattr(self, 'ser') and self.ser.is_open:
             try:
+		self.ser.write(":GO_0_0_0:".encode('utf-8'))
                 self.ser.close()
                 rospy.loginfo("Closed serial port")
             except:
